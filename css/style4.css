@@ -1,0 +1,236 @@
+/* === GLOBALNE USTAWIENIA === */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f2f4f8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(to right, #007bff, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* === NAVBAR === */
+.navbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar .nav-link {
+  color: #222;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+  color: #007bff;
+}
+
+.navbar .nav-link.active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* === HERO SEKCJA === */
+.hero {
+  background: url('https://medandbeauty.com/wp-content/uploads/2024/08/14-powodow-dla-ktorych-warto-nosic-odziez-medyczna-w-branzy-beauty-branzy-kosmetycznej-odziez-medyczna-medandbeauty-odziez-kosmetyczna-mundurek-medyczny-uniform-medyczny-scrubs-medyczny-6.jpg') center center / cover no-repeat;
+  text-align: center;
+  padding: 160px 20px;
+  position: relative;
+  color: white;
+  box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.5);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1, .hero-content p {
+  color: #fff;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s forwards;
+}
+
+.hero-content p {
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+.hero-content a.btn {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.hero-content a.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === SEKCJE === */
+.promo-section {
+  background: linear-gradient(135deg, #f9f9f9 0%, #e8f0ff 100%);
+  padding: 60px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.section {
+  padding: 60px 20px;
+}
+
+.section p {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* === KARTY PRODUKTÓW === */
+.product-card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
+}
+
+.product-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  background-color: #fff;
+  transition: filter 0.3s ease;
+}
+
+.product-card img:hover {
+  filter: brightness(1.05);
+}
+
+/* === BOXY Z IKONAMI === */
+.icon-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.icon-box i {
+  font-size: 2.5rem;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+/* === STOPKA === */
+footer {
+  background-color: #111;
+  color: #bbb;
+  padding: 60px 0;
+  text-align: center;
+}
+
+/* === INNE === */
+blockquote {
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.carousel-item {
+  padding: 20px;
+}
+
+/* === BANER PROMOCJI === */
+.sale-banner {
+  background: linear-gradient(135deg, #f9f9f9 0%, #e8f0ff 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sale-banner h2 {
+  color: #007bff;
+}
+
+.sale-banner p {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.sale-banner a.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 8px;
+}
+
+.sale-banner a.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* === MINI PODGLĄD KOSZYKA === */
+.cart-preview {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 220px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  z-index: 999;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.group-koszyk:hover .cart-preview {
+  display: block;
+}
+
+#cart-count {
+  font-size: 0.75rem;
+  padding: 0.35em 0.6em;
+  border-radius: 50%;
+  background-color: #dc3545;
+  color: white;
+  line-height: 1;
+  display: none;
+}

@@ -1,0 +1,109 @@
+/* === Dlaczego my? (dlaczego.html) === */
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f2f4f8;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(to right, #007bff, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar .nav-link {
+  color: #222;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+  color: #007bff;
+}
+
+.navbar .nav-link.active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+.hero {
+  background: linear-gradient(135deg, #f9f9f9 0%, #f1f4f8 100%);
+  text-align: center;
+  padding: 60px 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  border-radius: 12px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1 {
+  background: linear-gradient(to right, #007bff, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.icon-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.icon-box i {
+  font-size: 2.5rem;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+footer {
+  background-color: #111;
+  color: #bbb;
+  padding: 60px 0;
+}
+#cart-count {
+  font-size: 0.75rem;
+  padding: 0.35em 0.6em;
+  border-radius: 50%;
+  background-color: #dc3545;
+  color: white;
+  line-height: 1;
+  display: none;
+}
+
+.cart-preview {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 220px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  z-index: 999;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.group-koszyk:hover .cart-preview {
+  display: block;
+}
