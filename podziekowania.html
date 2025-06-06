@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Dziękujemy za zamówienie!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e9f5fb, #d0e2f2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .thank-you-box {
+      background-color: #fff;
+      border-radius: 24px;
+      padding: 40px 30px;
+      max-width: 700px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 1s ease forwards;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .icon {
+      margin-bottom: 20px;
+    }
+
+    .icon svg {
+      width: 70px;
+      height: 70px;
+    }
+
+    h1 {
+      color: #2e7d32;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    img.main-image {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+
+    a.btn {
+      background-color: #007bff;
+      color: #fff;
+      padding: 12px 26px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+
+    a.btn:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #555;
+    }
+
+.footer img {
+  width: 160px;      /* większe logo */
+  margin-top: 16px;
+  opacity: 0.9;
+}
+  </style>
+</head>
+<body>
+
+  <div class="thank-you-box">
+
+    <!-- Nowoczesna ikona SVG -->
+    <div class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2e7d32" stroke-width="2">
+        <circle cx="12" cy="12" r="10" fill="#e6f4ea" stroke="#2e7d32" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12l2.5 2.5L16 9" />
+      </svg>
+    </div>
+
+    <h1>Dziękujemy za złożenie zamówienia!</h1>
+    <p>Twoje zamówienie zostało pomyślnie złożone i jest w trakcie realizacji.<br>
+    Sprawdź swoją skrzynkę Gmail, aby potwierdzić zamówienie.</p>
+
+    <!-- Główne zdjęcie zespołu -->
+    <img src="img/background.png" alt="Zespół Mediva" class="main-image">
+
+    <!-- Przycisk do Gmaila -->
+    <a href="https://mail.google.com" target="_blank" class="btn">Sprawdź Gmail</a>
+
+    <!-- Sekcja z zespołem i logo -->
+    <div class="footer">
+      <p>– Zespół Mediva Wear</p>
+      <img src="img/logo.jpg" alt="Logo Mediva Wear">
+    </div>
+  </div>
+
+</body>
+</html>

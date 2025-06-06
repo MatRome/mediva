@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scrubsy – Mediva Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style9.css">
+ 
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Mediva Store</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Start</a></li>
+        <li class="nav-item"><a class="nav-link" href="scrubsy.html">Scrubsy</a></li>
+        <li class="nav-item"><a class="nav-link" href="dlaczego.html">Dlaczego my?</a></li>
+        <li class="nav-item"><a class="nav-link" href="opinie.html">Opinie</a></li>
+        <li class="nav-item position-relative group-koszyk">
+          <a class="nav-link position-relative" href="cart.html">
+            Koszyk
+            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <div id="cart-preview" class="cart-preview shadow-sm">
+            <p class="mb-1"><strong>Twój koszyk</strong></p>
+            <p class="mb-0">Brak produktów</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <header class="hero d-flex align-items-center justify-content-center" style="margin-top:80px;">
+    <div class="hero-content">
+      <h1 class="display-4">Nasze scrubsy</h1>
+    </div>
+  </header>
+
+  <section class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Kolekcja scrubów</h2>
+      <p class="text-muted">Styl, wygoda i profesjonalizm – wybierz zestaw idealny dla siebie</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+<div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+
+        <div class="product-card">
+          <div class="badge bg-primary position-absolute top-0 start-0 m-2">Dla niej</div>
+          <img src="img/scrubsy-blue.png" alt="Scrubsy damskie" style="width: 100%; height: auto;">
+          <div class="p-3">
+            <h5 class="fw-bold mb-1">Scrubsy damskie – ComfortFit</h5>
+            <p class="text-muted mb-1">Oddychająca tkanina i kobiecy krój</p>
+            <p class="fw-semibold">Cena: 139.99 zł</p>
+            <!-- Zmiana przycisku -->
+            <a href="product.html" class="btn btn-outline-primary w-100">Zobacz kolekcję damską</a>
+          </div>
+        </div>
+      </div>
+<div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+
+        <div class="product-card">
+          <div class="badge bg-primary position-absolute top-0 start-0 m-2">Dla niego</div>
+          <img src="img/scrubsy-blue-man.png" alt="Scrubsy męskie" style="width: 100%; height: auto;">
+          <div class="p-3">
+            <h5 class="fw-bold mb-1">Scrubsy męskie – ProLine</h5>
+            <p class="text-muted mb-1">Wytrzymały materiał i nowoczesny krój</p>
+            <p class="fw-semibold">Cena: 149.99 zł</p>
+            <!-- Zmiana przycisku -->
+            <a href="productmen.html" class="btn btn-outline-primary w-100">Zobacz kolekcję męską</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center mt-5">
+    <div class="container">
+      <p class="mb-1 footer-text">&copy; 2025 Mediva Store. Wszelkie prawa zastrzeżone.</p>
+      <small class="footer-text">Projekt i realizacja: Mediva Dev Team</small>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+      // Aktualizacja licznika koszyka
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const countEl = document.getElementById('cart-count');
+
+    const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+    if (totalItems > 0) {
+      countEl.textContent = totalItems;
+      countEl.style.display = 'inline-block';
+    } else {
+      countEl.style.display = 'none';
+    }
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+  const preview = document.querySelector('#cart-preview');
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (!preview) return;
+
+  if (cart.length > 0) {
+    const itemsHtml = cart.slice(0, 2).map(item => `
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <span>${item.name} (${item.quantity})</span>
+        <span>${(item.price * item.quantity).toFixed(2)} zł</span>
+      </div>
+    `).join('');
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      ${itemsHtml}
+      ${cart.length > 2 ? '<p class="text-muted small">+ więcej produktów</p>' : ''}
+    `;
+  } else {
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      <p class="mb-0">Brak produktów</p>
+    `;
+  }
+});
+</script>
+<script src="js/script.js"></script>
+</body>
+</html>

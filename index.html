@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mediva Store – Profesjonalne scrubsy medyczne</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="css/style4.css">
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Mediva Store</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Start</a></li>
+        <li class="nav-item"><a class="nav-link" href="scrubsy.html">Scrubsy</a></li>
+        <li class="nav-item"><a class="nav-link" href="dlaczego.html">Dlaczego my?</a></li>
+        <li class="nav-item"><a class="nav-link" href="opinie.html">Opinie</a></li>
+        <li class="nav-item position-relative group-koszyk">
+          <a class="nav-link position-relative" href="cart.html">
+            Koszyk
+            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <div id="cart-preview" class="cart-preview shadow-sm">
+            <p class="mb-1"><strong>Twój koszyk</strong></p>
+            <p class="mb-0">Brak produktów</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <header class="hero d-flex align-items-center justify-content-center">
+    <div class="hero-content">
+      <h1 class="display-4">Odzież medyczna nowej generacji</h1>
+      <p class="lead">Styl. Komfort. Profesjonalizm. Dla najlepszych specjalistów.</p>
+      <a href="scrubsy.html" class="btn btn-primary">Zobacz nasze produkty</a>
+    </div>
+  </header>
+
+  <section class="promo-section py-5" data-aos="fade-up">
+    <div class="container">
+      <div class="row text-center align-items-center g-4">
+        <div class="col-md-4">
+          <img src="img/nowosci.png" alt="Nowości" class="img-fluid rounded shadow mb-3" style="max-height: 450px; border-radius: 15px;">
+          <h3 class="fw-bold">Nowości</h3>
+          <p class="text-muted">Poznaj nasze najnowsze modele scrubów już dostępne!</p>
+          <a href="nowosci.html" class="btn btn-outline-primary">Zobacz nowości</a>
+        </div>
+
+        <div class="col-md-4">
+          <img src="img/wyprzedaz.png" alt="Wyprzedaż" class="img-fluid rounded shadow mb-3" style="max-height: 450px; border-radius: 15px;">
+          <h3 class="fw-bold text-danger">Wielka wyprzedaż!</h3>
+          <p class="text-muted">Do końca czerwca wszystkie produkty w promocyjnych cenach!</p>
+          <a href="scrubsy.html" class="btn btn-danger">Kup teraz</a>
+        </div>
+
+        <div class="col-md-4">
+          <img src="img/bestsellery.png" alt="Bestsellery" class="img-fluid rounded shadow mb-3" style="max-height: 450px; border-radius: 15px;">
+          <h3 class="fw-bold">Bestsellery</h3>
+          <p class="text-muted">Sprawdzone przez setki profesjonalistów. Komfort i styl w najlepszym wydaniu.</p>
+          <a href="scrubsy.html" class="btn btn-outline-primary">Zobacz bestsellery</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section text-center" id="onas">
+    <h2 class="fw-bold mb-4">O nas</h2>
+    <p>
+      W Mediva Store wierzymy, że odzież medyczna powinna nie tylko spełniać najwyższe standardy jakości i funkcjonalności,
+      ale także podkreślać profesjonalizm i styl osób, które ją noszą. Nasze produkty powstają we współpracy z lekarzami,
+      pielęgniarkami i specjalistami branży beauty. Łączymy komfort, nowoczesny design i trwałość, by sprostać oczekiwaniom
+      najbardziej wymagających klientów.
+    </p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Mediva Store. Wszelkie prawa zastrzeżone.</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js"></script>
+
+  <script>
+    AOS.init({ duration: 1000, once: true });
+    ScrollReveal().reveal('.section h2, .product-card img', {
+      duration: 1000,
+      easing: 'ease-in-out',
+      opacity: 0,
+      distance: '50px',
+    });
+    const scroll = new SmoothScroll('a[href*="#"]', {
+      speed: 800,
+      speedAsDuration: true
+    });
+    window.addEventListener('scroll', function () {
+      const nav = document.querySelector('.navbar');
+      nav.classList.toggle('scrolled', window.scrollY > 100);
+    });
+        // Aktualizacja licznika koszyka
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const countEl = document.getElementById('cart-count');
+
+    const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+    if (totalItems > 0) {
+      countEl.textContent = totalItems;
+      countEl.style.display = 'inline-block';
+    } else {
+      countEl.style.display = 'none';
+    }
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+  const preview = document.querySelector('#cart-preview');
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (!preview) return;
+
+  if (cart.length > 0) {
+    const itemsHtml = cart.slice(0, 2).map(item => `
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <span>${item.name} (${item.quantity})</span>
+        <span>${(item.price * item.quantity).toFixed(2)} zł</span>
+      </div>
+    `).join('');
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      ${itemsHtml}
+      ${cart.length > 2 ? '<p class="text-muted small">+ więcej produktów</p>' : ''}
+    `;
+  } else {
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      <p class="mb-0">Brak produktów</p>
+    `;
+  }
+});
+  </script>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

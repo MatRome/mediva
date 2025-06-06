@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scrubsy ComfortFit – Mediva Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style7.css">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Mediva Store</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Start</a></li>
+        <li class="nav-item"><a class="nav-link" href="scrubsy.html">Scrubsy</a></li>
+        <li class="nav-item"><a class="nav-link" href="dlaczego.html">Dlaczego my?</a></li>
+        <li class="nav-item"><a class="nav-link" href="opinie.html">Opinie</a></li>
+        <li class="nav-item position-relative group-koszyk">
+          <a class="nav-link position-relative" href="cart.html">
+            Koszyk
+            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <div id="cart-preview" class="cart-preview shadow-sm">
+            <p class="mb-1"><strong>Twój koszyk</strong></p>
+            <p class="mb-0">Brak produktów</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080">
+    <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="bi bi-cart-check me-2"></i> Produkt dodany do koszyka!
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <main class="container my-5">
+    <div class="row hero align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <img src="img/scrubsy-blue.png" alt="Scrubsy ComfortFit" class="product-image" id="productImage">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="title mb-3">Scrubsy ComfortFit</h1>
+        <p class="text-muted mb-2">Luksus, który możesz nosić na dyżurze.</p>
+        <div class="price mb-4">139,99 zł</div>
+
+        <div class="mb-3">
+          <label for="size" class="form-label">Rozmiar</label>
+          <select class="form-select w-auto d-inline-block" id="size">
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+          </select>
+          <button class="btn btn-outline-primary fw-semibold rounded-pill px-4 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#sizeChartModal">
+            <i class="bi bi-rulers me-1"></i> Tabela rozmiarów
+          </button>          
+        </div>
+
+<div class="mb-4">
+  <label class="form-label d-block">Kolor</label>
+  <div id="kolor-zestaw" class="d-flex gap-3">
+    <div class="color-swatch active" style="background-color:#0066cc;" data-img="img/scrubsy-blue.png"></div>
+    <div class="color-swatch" style="background-color:#1c8a35;" data-img="img/scrubsy-green.png"></div>
+    <div class="color-swatch" style="background-color:#d6457b;" data-img="img/scrubsy-pink.png"></div>
+    <div class="color-swatch" style="background-color:#2c2c2c;" data-img="img/scrubsy-black.png"></div>
+    <div class="color-swatch" style="background-color:#663399;" data-img="img/scrubsy-purple.png"></div>
+  </div>
+</div>
+
+        <div class="quantity-control">
+          <label class="form-label mb-0">Ilość:</label>
+          <button type="button" id="decreaseQty">−</button>
+          <span id="quantityValue">1</span>
+          <button type="button" id="increaseQty">+</button>
+        </div>
+
+        <button class="btn btn-gradient w-100 mb-3" id="addToCartBtn">
+          <i class="bi bi-cart-plus me-2"></i> Dodaj do koszyka
+        </button>
+
+        <p class="text-muted small text-center">Darmowa dostawa od 200 zł | Wysyłka w 24h</p>
+      </div>
+    </div>
+
+
+<section class="container my-5">
+  <div class="row g-5">
+    <!-- Bluzka -->
+    <div class="col-md-6">
+      <div class="white-box p-4">
+        <div class="product-card">
+          <img src="img/bluzka-blue.png" alt="Bluzka ComfortFit" class="product-item-image mb-3" id="img-bluzka">
+          <h3>Bluzka ComfortFit</h3>
+          <p class="text-muted">Oddychająca, wygodna i kobieca.</p>
+          <p class="price text-primary fw-bold fs-4">69,99 zł</p>
+
+          <label class="form-label">Rozmiar</label>
+          <select class="form-select mb-3" id="rozmiar-bluzka">
+            <option>S</option><option>M</option><option>L</option><option>XL</option>
+          </select>
+
+          <label class="form-label">Kolor</label>
+          <div class="d-flex gap-2 mb-3" id="kolor-bluzka">
+            <div class="color-swatch active" data-img="img/bluzka-blue.png" style="background:#0066cc;"></div>
+            <div class="color-swatch" data-img="img/bluzka-green.png" style="background:#1c8a35;"></div>
+            <div class="color-swatch" data-img="img/bluzka-pink.png" style="background:#d6457b;"></div>
+            <div class="color-swatch" data-img="img/bluzka-black.png" style="background:#2c2c2c;"></div>
+            <div class="color-swatch" data-img="img/bluzka-purple.png" style="background:#663399;"></div>
+          </div>
+
+          <label class="form-label">Ilość</label>
+          <div class="d-flex align-items-center mb-3">
+            <button class="btn btn-sm btn-light" onclick="zmienIlosc('bluzka', -1)">−</button>
+            <span class="mx-2" id="ilosc-bluzka">1</span>
+            <button class="btn btn-sm btn-light" onclick="zmienIlosc('bluzka', 1)">+</button>
+          </div>
+
+          <button class="btn btn-primary w-100" onclick="dodajDoKoszyka('bluzka')">
+            <i class="bi bi-cart-plus"></i> Dodaj bluzkę do koszyka
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spodnie -->
+    <div class="col-md-6">
+      <div class="white-box p-4">
+        <div class="product-card">
+          <img src="img/spodnie-blue.png" alt="Spodnie ComfortFit" class="product-item-image mb-3" id="img-spodnie">
+          <h3>Spodnie ComfortFit</h3>
+          <p class="text-muted">Funkcjonalność i dopasowanie do ruchu.</p>
+          <p class="price text-primary fw-bold fs-4">69,99 zł</p>
+
+          <label class="form-label">Rozmiar</label>
+          <select class="form-select mb-3" id="rozmiar-spodnie">
+            <option>S</option><option>M</option><option>L</option><option>XL</option>
+          </select>
+
+          <label class="form-label">Kolor</label>
+          <div class="d-flex gap-2 mb-3" id="kolor-spodnie">
+            <div class="color-swatch active" data-img="img/spodnie-blue.png" style="background:#0066cc;"></div>
+            <div class="color-swatch" data-img="img/spodnie-green.png" style="background:#1c8a35;"></div>
+            <div class="color-swatch" data-img="img/spodnie-pink.png" style="background:#d6457b;"></div>
+            <div class="color-swatch" data-img="img/spodnie-black.png" style="background:#2c2c2c;"></div>
+            <div class="color-swatch" data-img="img/spodnie-purple.png" style="background:#663399;"></div>
+          </div>
+
+          <label class="form-label">Ilość</label>
+          <div class="d-flex align-items-center mb-3">
+            <button class="btn btn-sm btn-light" onclick="zmienIlosc('spodnie', -1)">−</button>
+            <span class="mx-2" id="ilosc-spodnie">1</span>
+            <button class="btn btn-sm btn-light" onclick="zmienIlosc('spodnie', 1)">+</button>
+          </div>
+
+          <button class="btn btn-primary w-100" onclick="dodajDoKoszyka('spodnie')">
+            <i class="bi bi-cart-plus"></i> Dodaj spodnie do koszyka
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <div class="row text-center mt-5 features">
+      <div class="col-md-4">
+        <i class="bi bi-box-seam"></i>
+        <h5 class="mt-2">Wysyłka 24h</h5>
+        <p class="text-muted">Zamów do 15:00 i wyślemy tego samego dnia.</p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-patch-check"></i>
+        <h5 class="mt-2">Gwarancja jakości</h5>
+        <p class="text-muted">100% satysfakcji lub zwrot pieniędzy.</p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-lock"></i>
+        <h5 class="mt-2">Bezpieczne zakupy</h5>
+        <p class="text-muted">Szyfrowane płatności i ochrona danych.</p>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal fade" id="sizeChartModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content p-4">
+        <div class="modal-header">
+          <h5 class="modal-title">Tabela rozmiarów – Scrubsy ComfortFit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-hover text-center">
+            <thead class="table-light">
+              <tr><th>Rozmiar</th><th>Biust</th><th>Talia</th><th>Biodra</th><th>Długość</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>S</td><td>84–88</td><td>66–70</td><td>90–94</td><td>65</td></tr>
+              <tr><td>M</td><td>88–92</td><td>70–74</td><td>94–98</td><td>66</td></tr>
+              <tr><td>L</td><td>92–96</td><td>74–78</td><td>98–102</td><td>67</td></tr>
+              <tr><td>XL</td><td>96–100</td><td>78–82</td><td>102–106</td><td>68</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.tidio.co/0v9owjshuz6eecqm4aq9kze6lbttejxg.js" async></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const productImage = document.getElementById('productImage');
+  const swatches = document.querySelectorAll('.color-swatch');
+  const addToCartBtn = document.getElementById('addToCartBtn');
+  const quantityValue = document.getElementById('quantityValue');
+  const increaseQty = document.getElementById('increaseQty');
+  const decreaseQty = document.getElementById('decreaseQty');
+  const cartCount = document.getElementById('cart-count');
+  const cartPreview = document.getElementById('cart-preview');
+
+  // Obsługa kolorów w zestawie (główna karta produktu)
+  const zestawSwatches = document.querySelectorAll('#kolor-zestaw .color-swatch');
+  const productImageZestaw = document.getElementById('productImage');
+
+  zestawSwatches.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      zestawSwatches.forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+
+      const newImg = swatch.dataset.img;
+      if (newImg && productImageZestaw) {
+        productImageZestaw.classList.add('opacity-0');
+        setTimeout(() => {
+          productImageZestaw.src = newImg;
+          productImageZestaw.classList.remove('opacity-0');
+        }, 200);
+      }
+    });
+  });
+
+  // Obsługa kolorów w kartach bluzki/spodni
+  document.querySelectorAll('.color-swatch').forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      const card = swatch.closest('.product-card');
+      const image = card.querySelector('img');
+      const localSwatches = card.querySelectorAll('.color-swatch');
+
+      localSwatches.forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+
+      const newImg = swatch.dataset.img;
+      if (newImg && image) {
+        image.classList.add('opacity-0');
+        setTimeout(() => {
+          image.src = newImg;
+          image.classList.remove('opacity-0');
+        }, 200);
+      }
+    });
+  });
+
+  // Ilość
+  increaseQty.addEventListener('click', () => {
+    let qty = parseInt(quantityValue.textContent);
+    quantityValue.textContent = qty + 1;
+  });
+
+  decreaseQty.addEventListener('click', () => {
+    let qty = parseInt(quantityValue.textContent);
+    if (qty > 1) quantityValue.textContent = qty - 1;
+  });
+  
+
+  // Dodawanie do koszyka
+  addToCartBtn.addEventListener('click', () => {
+    const selectedSize = document.getElementById('size').value;
+    const selectedQty = parseInt(quantityValue.textContent);
+    const selectedColorSwatch = document.querySelector('#kolor-zestaw .color-swatch.active');
+    const selectedImage = selectedColorSwatch ? selectedColorSwatch.dataset.img : productImage.src;
+
+    const product = {
+      name: 'Scrubsy ComfortFit',
+      price: 139.99,
+      size: selectedSize,
+      quantity: selectedQty,
+      image: selectedImage
+    };
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    updateCartUI();
+
+    const toast = new bootstrap.Toast(document.getElementById('cartToast'));
+    toast.show();
+  });
+  function updateCartUI() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+
+    if (cartCount) {
+      cartCount.textContent = totalItems;
+      cartCount.style.display = totalItems > 0 ? 'inline-block' : 'none';
+    }
+
+    if (cartPreview) {
+      if (cart.length > 0) {
+        cartPreview.innerHTML = `
+          <p class="mb-1"><strong>Twój koszyk</strong></p>
+          <p class="mb-0">${totalItems} ${totalItems === 1 ? 'produkt' : (totalItems <= 4 ? 'produkty' : 'produktów')}</p>
+          <p class="mb-2">Razem: ${totalPrice} zł</p>
+          <a href="cart.html" class="btn btn-sm btn-primary">Przejdź do koszyka</a>
+        `;
+      } else {
+        cartPreview.innerHTML = `
+          <p class="mb-1"><strong>Twój koszyk</strong></p>
+          <p class="mb-0">Brak produktów</p>
+        `;
+      }
+    }
+  }
+
+  updateCartUI();
+});
+
+</script>
+
+<script>
+function zmienIlosc(typ, zmiana) {
+  const iloscElement = document.getElementById(`ilosc-${typ}`);
+  if (!iloscElement) return;
+
+  let aktualnaIlosc = parseInt(iloscElement.textContent);
+  aktualnaIlosc += zmiana;
+  if (aktualnaIlosc < 1) aktualnaIlosc = 1;
+  iloscElement.textContent = aktualnaIlosc;
+}
+
+function dodajDoKoszyka(typ) {
+  const rozmiar = document.getElementById(`rozmiar-${typ}`).value;
+  const ilosc = parseInt(document.getElementById(`ilosc-${typ}`).textContent);
+  const kolorSwatch = document.querySelector(`#kolor-${typ} .color-swatch.active`);
+  const obrazek = document.getElementById(`img-${typ}`).src;
+
+  const produkt = {
+    name: `${typ.charAt(0).toUpperCase() + typ.slice(1)} ComfortFit`,
+    price: 69.99,
+    size: rozmiar,
+    quantity: ilosc,
+    image: kolorSwatch ? kolorSwatch.dataset.img : obrazek
+  };
+
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push(produkt);
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  updateCartUI();
+
+  const toast = new bootstrap.Toast(document.getElementById('cartToast'));
+  toast.show();
+}
+
+function updateCartUI() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+
+  const cartCount = document.getElementById('cart-count');
+  const cartPreview = document.getElementById('cart-preview');
+
+  if (cartCount) {
+    cartCount.textContent = totalItems;
+    cartCount.style.display = totalItems > 0 ? 'inline-block' : 'none';
+  }
+
+  if (cartPreview) {
+    if (cart.length > 0) {
+      cartPreview.innerHTML = `
+        <p class="mb-1"><strong>Twój koszyk</strong></p>
+        <p class="mb-0">${totalItems} ${totalItems === 1 ? 'produkt' : (totalItems <= 4 ? 'produkty' : 'produktów')}</p>
+        <p class="mb-2">Razem: ${totalPrice} zł</p>
+        <a href="cart.html" class="btn btn-sm btn-primary">Przejdź do koszyka</a>
+      `;
+    } else {
+      cartPreview.innerHTML = `
+        <p class="mb-1"><strong>Twój koszyk</strong></p>
+        <p class="mb-0">Brak produktów</p>
+      `;
+    }
+  }
+}
+</script>
+
+</body>
+</html>

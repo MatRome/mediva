@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Koszyk – Mediva Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style2.css">
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Mediva Store</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Start</a></li>
+        <li class="nav-item"><a class="nav-link" href="scrubsy.html">Scrubsy</a></li>
+        <li class="nav-item"><a class="nav-link" href="dlaczego.html">Dlaczego my?</a></li>
+        <li class="nav-item"><a class="nav-link" href="opinie.html">Opinie</a></li>
+        <li class="nav-item position-relative group-koszyk">
+          <a class="nav-link position-relative" href="cart.html">
+            Koszyk
+            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <div id="cart-preview" class="cart-preview shadow-sm">
+            <p class="mb-1"><strong>Twój koszyk</strong></p>
+            <p class="mb-0">Brak produktów</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <header class="hero">
+    <h1 class="display-4">Twój koszyk</h1>
+  </header>
+
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-8" id="cart-items"></div>
+      <div class="col-lg-4">
+        <aside class="position-sticky top-0">
+          <div class="card p-3 shadow-sm">
+            <h5>Podsumowanie</h5>
+            <div id="summaryTotal" class="fw-bold fs-5">0.00 zł</div>
+            <div class="mt-3">
+              <label for="promoCode" class="form-label">Kod rabatowy</label>
+              <div class="input-group mb-3">
+                <input type="text" id="promoCode" class="form-control" placeholder="Wpisz kod...">
+                <button class="btn btn-outline-primary" id="applyCode">Zastosuj</button>
+              </div>
+              <div id="discountInfo" class="text-success"></div>
+            </div>
+            <a href="checkout.html" class="btn btn-primary mt-3 w-100">Przejdź do płatności</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center mt-5">
+    <div class="container">
+      <p class="mb-1">&copy; 2025 Mediva Store. Wszelkie prawa zastrzeżone.</p>
+      <small>Projekt i realizacja: Mediva Dev Team</small>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartContainer = document.getElementById('cart-items');
+      const badge = document.getElementById('cart-count');
+      const summaryTotal = document.getElementById('summaryTotal');
+      const discountDisplay = document.getElementById('discountInfo');
+      let discount = 0;
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      cart.forEach(item => {
+        if (!item.color && item.image) {
+          const filename = item.image.split('/').pop();
+          if (filename.includes('navy')) {
+            item.color = 'Granatowy';
+            item.colorCode = '#1a237e';
+          } else if (filename.includes('black')) {
+            item.color = 'Czarny';
+            item.colorCode = '#000000';
+          } else if (filename.includes('blue')) {
+            item.color = 'Niebieski';
+            item.colorCode = '#2b57e8';
+          } else if (filename.includes('darkgreen')) {
+            item.color = 'Ciemna zieleń';
+            item.colorCode = '#006400';
+          } else if (filename.includes('darkred')) {
+            item.color = 'Ciemna czerwień';
+            item.colorCode = '#8b0000';
+          }
+        }
+      });
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      function updateBadge() {
+        const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'inline-block' : 'none';
+      }
+
+      function calculateTotal() {
+        let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        return discount > 0 ? total * (1 - discount) : total;
+      }
+
+      function renderCart() {
+        if (cart.length === 0) {
+          cartContainer.innerHTML = `<div class="alert alert-info">Koszyk jest pusty.</div>`;
+          summaryTotal.textContent = '0.00 zł';
+          return;
+        }
+
+        let html = cart.map((item, index) => {
+          const itemTotal = item.price * item.quantity;
+          return `
+            <div class="card mb-3 shadow-sm" data-index="${index}">
+              <div class="row g-0 align-items-center">
+                <div class="col-md-4">
+                  <img src="${item.image}" loading="lazy" class="img-fluid rounded-start" alt="${item.name}">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">${item.name}</h5>
+                    <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
+                      <div><strong>Rozmiar:</strong> ${item.size}</div>
+                      <div class="d-flex align-items-center gap-2">
+                        <strong>Kolor:</strong>
+                        <span class="rounded-circle border" style="width: 24px; height: 24px; background-color: ${item.colorCode || '#ccc'};" title="${item.color || 'Nieokreślony'}"></span>
+                        <span class="small text-muted">${item.color || 'Nieokreślony'}</span>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <label class="me-2">Ilość:</label>
+                      <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="form-control form-control-sm w-25 quantity-input">
+                    </div>
+                    <p class="card-text fw-bold mt-2">${itemTotal.toFixed(2)} zł</p>
+                    <button class="btn btn-sm btn-outline-danger mt-2 remove-btn" data-index="${index}">
+                      <i class="bi bi-trash"></i> Usuń
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+
+        cartContainer.innerHTML = html;
+        summaryTotal.textContent = calculateTotal().toFixed(2) + ' zł';
+        if (discount > 0) discountDisplay.textContent = `Zastosowano rabat: ${discount * 100}%`;
+
+        attachEvents();
+        updateBadge();
+      }
+
+      function attachEvents() {
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+          btn.addEventListener('click', e => {
+            const index = e.target.closest('button').dataset.index;
+            const card = document.querySelector(`[data-index='${index}']`);
+            card.classList.add('fade-out');
+            setTimeout(() => {
+              cart.splice(index, 1);
+              localStorage.setItem('cart', JSON.stringify(cart));
+              renderCart();
+            }, 500);
+          });
+        });
+
+        document.querySelectorAll('.quantity-input').forEach(input => {
+          input.addEventListener('change', e => {
+            const index = e.target.dataset.index;
+            const newQuantity = parseInt(e.target.value);
+            if (newQuantity > 0) {
+              cart[index].quantity = newQuantity;
+              localStorage.setItem('cart', JSON.stringify(cart));
+              renderCart();
+            }
+          });
+        });
+      }
+
+      document.getElementById('applyCode').addEventListener('click', () => {
+        const code = document.getElementById('promoCode').value.trim().toUpperCase();
+        if (code === 'MEDI') {
+          discount = 0.3;
+        } else {
+          discount = 0;
+          discountDisplay.textContent = 'Nieprawidłowy kod rabatowy.';
+        }
+        renderCart();
+      });
+
+      renderCart();
+    });
+        // Aktualizacja licznika koszyka
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const countEl = document.getElementById('cart-count');
+
+    const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+    if (totalItems > 0) {
+      countEl.textContent = totalItems;
+      countEl.style.display = 'inline-block';
+    } else {
+      countEl.style.display = 'none';
+    }
+  });
+  
+  </script>
+<script>
+
+  document.addEventListener('DOMContentLoaded', () => {
+  const preview = document.querySelector('#cart-preview');
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (!preview) return;
+
+  if (cart.length > 0) {
+    const itemsHtml = cart.slice(0, 2).map(item => `
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <span>${item.name} (${item.quantity})</span>
+        <span>${(item.price * item.quantity).toFixed(2)} zł</span>
+      </div>
+    `).join('');
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      ${itemsHtml}
+      ${cart.length > 2 ? '<p class="text-muted small">+ więcej produktów</p>' : ''}
+    `;
+  } else {
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      <p class="mb-0">Brak produktów</p>
+    `;
+  }
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.tidio.co/0v9owjshuz6eecqm4aq9kze6lbttejxg.js" async></script>
+</body>
+</html>

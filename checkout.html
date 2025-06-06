@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Finalizacja – Mediva Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">Mediva Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Start</a></li>
+          <li class="nav-item"><a class="nav-link" href="scrubsy.html">Scrubsy</a></li>
+          <li class="nav-item"><a class="nav-link" href="dlaczego.html">Dlaczego my?</a></li>
+          <li class="nav-item"><a class="nav-link" href="opinie.html">Opinie</a></li>
+          <li class="nav-item position-relative group-koszyk">
+            <a class="nav-link position-relative" href="cart.html">
+              Koszyk
+              <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+            </a>
+            <div id="cart-preview" class="cart-preview shadow-sm">
+              <p class="mb-1"><strong>Twój koszyk</strong></p>
+              <p class="mb-0">Brak produktów</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <div class="row g-4">
+<!-- Formularz -->
+<div class="col-lg-7">
+  <div class="card p-4 shadow-sm card-hover">
+    <h2 class="mb-4">Finalizacja zamówienia</h2>
+
+    <!-- Pasek postępu -->
+    <div class="mb-4">
+       <div class="progress" style="height: 20px;">
+          <div id="progress-bar" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+             Rozpocznij finalizację
+          </div>
+        </div>
+    </div>
+
+    <form onsubmit="submitOrder(event)">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="name" class="form-label">Imię i nazwisko</label>
+          <input type="text" class="form-control" id="name" placeholder="Jan Kowalski" required>
+        </div>
+  <!-- Telefon z flagą -->
+  <div class="col-md-6">
+    <label for="phone" class="form-label">Telefon</label>
+    <div class="input-group">
+      <span class="input-group-text">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 640 480">
+          <g fill-rule="evenodd">
+            <path fill="#fff" d="M0 0h640v240H0z"/>
+            <path fill="#dc143c" d="M0 240h640v240H0z"/>
+          </g>
+        </svg>
+        &nbsp;+48
+      </span>
+      <input type="tel" class="form-control" id="phone" placeholder="123-456-789" required>
+    </div>
+  </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">E-mail</label>
+          <input type="email" class="form-control" id="email" placeholder="jan@example.com" required>
+        </div>
+        <div class="col-12">
+          <label for="address" class="form-label">Adres dostawy / Paczkomat</label>
+          <input type="text" class="form-control" id="address" placeholder="ul. Przykładowa 12/4" required>
+        </div>
+
+        <!-- Forma dostawy -->
+        <div class="col-12 mt-3">
+          <h5>Wybierz formę dostawy</h5>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="delivery-method" id="delivery-locker" value="Paczkomaty InPost">
+                <label class="form-check-label d-flex align-items-center" for="delivery-locker">
+                 <img src="img/paczkomat.svg" alt="Paczkomat InPost" width="40" class="me-2">
+                 Paczkomaty InPost
+                </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="delivery-method" id="delivery-courier" value="Kurier InPost">
+                <label class="form-check-label d-flex align-items-center" for="delivery-courier">
+                 <img src="img/kurier.svg" alt="Kurier InPost" width="40" class="me-2">
+                 Kurier InPost
+                </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mapa paczkomatów -->
+      <div class="mt-4" id="locker-map-container">
+        <h5>Wybierz paczkomat (kliknij na mapie)</h5>
+        <div id="mapa-paczkomatow" style="height: 300px;"></div>
+        <div id="selected-locker-info" class="alert alert-info mt-3 d-none"></div>
+      </div>
+
+      <!-- Metoda płatności -->
+      <div class="mt-4">
+        <h5>Wybierz metodę płatności</h5>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="payment-method" id="blik" value="BLIK">
+            <label class="form-check-label d-flex align-items-center gap-2" for="blik">
+               <img src="img/blik.svg" alt="BLIK" style="height: 26px;">
+            </label>
+        </div>
+<div class="form-check d-flex align-items-center gap-2">
+  <input class="form-check-input mt-0" type="radio" name="payment-method" id="card" value="Karta">
+  <label class="form-check-label d-flex align-items-center gap-2" for="card">
+    <i class="fa-solid fa-credit-card" style="font-size: 20px;"></i>
+    Płatność kartą
+  </label>
+</div>
+<div class="form-check d-flex align-items-center gap-2">
+  <input class="form-check-input mt-0" type="radio" name="payment-method" id="bank-transfer" value="Przelew">
+  <label class="form-check-label d-flex align-items-center gap-2" for="bank-transfer">
+    <i class="fa-solid fa-money-check" style="font-size: 20px;"></i>
+    Przelew na konto
+  </label>
+</div>
+
+<div class="form-check d-flex align-items-center gap-2">
+  <input class="form-check-input mt-0" type="radio" name="payment-method" id="cod" value="Za pobraniem">
+  <label class="form-check-label d-flex align-items-center gap-2" for="cod">
+    <i class="fa-solid fa-money-bill-wave" style="font-size: 20px;"></i>
+    Za pobraniem
+  </label>
+</div>
+
+        <!-- BLIK -->
+        <div id="blik-input-container" class="mt-3">
+          <input type="text" id="blik-code" class="form-control" placeholder="Wprowadź 6-cyfrowy kod BLIK" pattern="\d{6}" required>
+        </div>
+
+        <!-- Karta -->
+        <div id="card-input-container" class="mt-3 d-none">
+          <input type="text" id="card-number" class="form-control mb-2" placeholder="Numer karty (16 cyfr)" pattern="\d{16}">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <input type="text" id="card-expiry" class="form-control" placeholder="MM/RR" pattern="\d{2}/\d{2}">
+            </div>
+            <div class="col-md-6">
+              <input type="text" id="card-cvc" class="form-control" placeholder="CVC (3 cyfry)" pattern="\d{3}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Przelew -->
+        <div id="transfer-input-container" class="mt-3 d-none">
+          <input type="text" id="transfer-title" class="form-control" value="Zamówienie Mediva Store" readonly>
+          <p class="text-muted small mt-2 mb-0">Po złożeniu zamówienia otrzymasz dane do przelewu.</p>
+        </div>
+      </div>
+
+      <!-- Przycisk zamówienia -->
+      <button type="submit" class="btn btn-success w-100 mt-4 py-2 fw-bold fs-5">
+        <i class="bi bi-check2-circle me-2"></i>Symuluj płatność i zamów
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Podsumowanie -->
+<div class="col-lg-5">
+  <div class="card p-4 bg-white shadow-sm card-hover">
+    <h4 class="mb-4"><i class="bi bi-receipt-cutoff me-2"></i>Podsumowanie zamówienia</h4>
+    <ul id="checkout-summary" class="list-group mb-3"></ul>
+    <div id="delivery-info"></div>
+  </div>
+</div>
+
+
+  <footer class="text-center py-4 bg-light text-muted border-top mt-5">
+    <p class="mb-1">&copy; 2025 Mediva Store</p>
+    <small>Bezpieczne zakupy – Szyfrowane połączenie SSL</small>
+  </footer>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+function updateProgress() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const delivery = document.querySelector('input[name="delivery-method"]:checked');
+  const payment = document.querySelector('input[name="payment-method"]:checked');
+
+  const progressBar = document.getElementById('progress-bar');
+
+  let step = 0;
+
+  if (name !== '' && email !== '' && phone !== '') step = 1;
+  if (step === 1 && delivery) step = 2;
+  if (step === 2 && payment) step = 3;
+
+  if (step === 0) {
+    progressBar.style.width = '0%';
+    progressBar.textContent = 'Rozpocznij finalizację';
+    progressBar.setAttribute('aria-valuenow', 0);
+  } else if (step === 1) {
+    progressBar.style.width = '33%';
+    progressBar.textContent = 'Krok 1 z 3: Dane kontaktowe';
+    progressBar.setAttribute('aria-valuenow', 33);
+  } else if (step === 2) {
+    progressBar.style.width = '66%';
+    progressBar.textContent = 'Krok 2 z 3: Dostawa';
+    progressBar.setAttribute('aria-valuenow', 66);
+  } else if (step === 3) {
+    progressBar.style.width = '100%';
+    progressBar.textContent = 'Krok 3 z 3: Płatność';
+    progressBar.setAttribute('aria-valuenow', 100);
+  }
+}
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const summaryEl = document.getElementById('checkout-summary');
+    const deliveryInfo = document.getElementById('delivery-info');
+    const countEl = document.getElementById('cart-count');
+
+    const totalItems = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+    countEl.textContent = totalItems;
+    countEl.style.display = totalItems > 0 ? 'inline-block' : 'none';
+
+    let total = 0;
+    if (cart.length === 0) {
+      summaryEl.innerHTML = '<li class="list-group-item text-center text-muted">Koszyk jest pusty.</li>';
+      return;
+    }
+
+    summaryEl.innerHTML = cart.map(item => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      return `<li class="list-group-item d-flex justify-content-between lh-sm">
+        <div><h6 class="my-0">${item.name}</h6>
+        <small class="text-muted">Rozmiar: ${item.size}, Ilość: ${item.quantity}</small></div>
+        <span class="text-muted">${itemTotal.toFixed(2)} zł</span>
+      </li>`;
+    }).join('');
+
+// Domyślna dostawa = brak (zostanie zaktualizowana po wyborze)
+let deliveryCost = 0;
+let deliveryText = 'Brak wybranej metody dostawy';
+
+// Sprawdź, czy już wybrano metodę dostawy
+const selectedDelivery = document.querySelector('input[name="delivery-method"]:checked');
+if (selectedDelivery) {
+  if (selectedDelivery.value === 'Paczkomaty InPost') {
+    deliveryCost = 10.99;
+    deliveryText = 'Paczkomaty InPost (10,99 zł)';
+  } else if (selectedDelivery.value === 'Kurier InPost') {
+    deliveryCost = 15.99;
+    deliveryText = 'Kurier InPost (15,99 zł)';
+  }
+}
+
+summaryEl.innerHTML += `
+  <li class="list-group-item d-flex justify-content-between">
+    <span>Dostawa:</span>
+    <strong>${deliveryText}</strong>
+  </li>
+  <li class="list-group-item d-flex justify-content-between bg-light">
+    <strong>Razem</strong>
+    <strong>${(total + deliveryCost).toFixed(2)} zł</strong>
+  </li>`;
+
+
+    deliveryInfo.innerHTML = total >= 450
+      ? '<p class="text-success small mt-2">Dostawa darmowa!</p>'
+      : '<p class="text-muted small mt-2">Dostawa darmowa przy zamówieniach powyżej 450 zł.</p>';
+
+    // Mapa paczkomatów
+    const mapa = L.map('mapa-paczkomatow').setView([52.2, 19.1], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(mapa);
+
+    const paczkomaty = [
+      { name: "WAW01A", address: "ul. Domaniewska 37, Warszawa", coords: [52.1803, 20.9989] },
+      { name: "KRK02B", address: "ul. Mogilska 15, Kraków", coords: [50.066, 19.960] },
+      { name: "GD01C", address: "ul. Grunwaldzka 25, Gdańsk", coords: [54.370, 18.630] },
+      { name: "POZ03D", address: "ul. Głogowska 16, Poznań", coords: [52.400, 16.920] },
+      { name: "WRO04E", address: "ul. Legnicka 60, Wrocław", coords: [51.110, 17.020] },
+      { name: "SZC05F", address: "ul. Krzywoustego 12, Szczecin", coords: [53.430, 14.550] },
+      { name: "LUB06G", address: "ul. Lipowa 5, Lublin", coords: [51.250, 22.570] },
+      { name: "KAT07H", address: "ul. Chorzowska 107, Katowice", coords: [50.270, 19.010] },
+      { name: "BIA08I", address: "ul. Sienkiewicza 22, Białystok", coords: [53.130, 23.150] },
+      { name: "RZE09J", address: "ul. Rejtana 4, Rzeszów", coords: [50.040, 22.000] }
+    ];
+
+    paczkomaty.forEach(p => {
+      const fullAddress = `Paczkomat ${p.name}, ${p.address}`;
+      L.marker(p.coords).addTo(mapa)
+        .bindPopup(`<strong>Paczkomat ${p.name}</strong><br>${p.address}<br><button class="btn btn-sm btn-primary mt-2" onclick="wybierzPaczkomat('${fullAddress}')">Wybierz ten paczkomat</button>`);
+    });
+
+    document.querySelectorAll('input[name="delivery-method"]').forEach(el => {
+      el.addEventListener('change', () => {
+        const mapContainer = document.getElementById('locker-map-container');
+        mapContainer.style.display = document.getElementById('delivery-locker').checked ? 'block' : 'none';
+        if (!document.getElementById('delivery-locker').checked) {
+          document.getElementById('address').value = '';
+        }
+      });
+    });
+['name', 'email', 'phone'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateProgress);
+});
+
+document.querySelectorAll('input[name="delivery-method"]').forEach(el => {
+  el.addEventListener('change', updateProgress);
+});
+
+document.querySelectorAll('input[name="payment-method"]').forEach(el => {
+  el.addEventListener('change', updateProgress);
+});
+    // Obsługa dynamicznego wyświetlania formularzy płatności
+    document.querySelectorAll('input[name="payment-method"]').forEach(el => {
+      el.addEventListener('change', () => {
+        const blik = document.getElementById('blik');
+        const card = document.getElementById('card');
+        const bank = document.getElementById('bank-transfer');
+
+        const blikContainer = document.getElementById('blik-input-container');
+        const cardContainer = document.getElementById('card-input-container');
+        const transferContainer = document.getElementById('transfer-input-container');
+
+        blikContainer.classList.add('d-none');
+        cardContainer.classList.add('d-none');
+        transferContainer.classList.add('d-none');
+
+        document.getElementById('blik-code').removeAttribute('required');
+        document.getElementById('card-number').removeAttribute('required');
+        document.getElementById('card-expiry').removeAttribute('required');
+        document.getElementById('card-cvc').removeAttribute('required');
+
+        if (blik.checked) {
+          blikContainer.classList.remove('d-none');
+          document.getElementById('blik-code').setAttribute('required', 'required');
+        } else if (card.checked) {
+          cardContainer.classList.remove('d-none');
+          document.getElementById('card-number').setAttribute('required', 'required');
+          document.getElementById('card-expiry').setAttribute('required', 'required');
+          document.getElementById('card-cvc').setAttribute('required', 'required');
+        } else if (bank.checked) {
+          transferContainer.classList.remove('d-none');
+        }
+      });
+    });
+  });
+
+  function wybierzPaczkomat(fullAddress) {
+    document.getElementById('address').value = fullAddress;
+    const info = document.getElementById('selected-locker-info');
+    info.textContent = "Wybrany paczkomat: " + fullAddress;
+    info.classList.remove('d-none');
+  }
+
+  function submitOrder(event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+    const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked').value;
+
+    if (deliveryMethod === "Paczkomaty InPost" && !address.startsWith("Paczkomat")) {
+      alert('Wybierz paczkomat z mapy.');
+      return;
+    }
+
+    if (paymentMethod === "BLIK") {
+      const blikCode = document.getElementById('blik-code').value.trim();
+      if (!/^\d{6}$/.test(blikCode)) {
+        alert('Nieprawidłowy kod BLIK.');
+        return;
+      }
+    }
+
+    if (paymentMethod === "Karta") {
+      const cardNumber = document.getElementById('card-number').value.trim();
+      const expiry = document.getElementById('card-expiry').value.trim();
+      const cvc = document.getElementById('card-cvc').value.trim();
+
+      if (!/^\d{16}$/.test(cardNumber)) {
+        alert('Nieprawidłowy numer karty.');
+        return;
+      }
+      if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+        alert('Nieprawidłowa data ważności.');
+        return;
+      }
+      if (!/^\d{3}$/.test(cvc)) {
+        alert('Nieprawidłowy kod CVC.');
+        return;
+      }
+    }
+
+    if (cart.length === 0) {
+      alert('Koszyk jest pusty.');
+      return;
+    }
+
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const button = event.target.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Przetwarzanie...';
+
+    setTimeout(() => {
+      fetch('faktura.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, address, products: cart, total, deliveryMethod, paymentMethod })
+      })
+      .then(res => res.json())
+      .then(() => fetch('zapisz_zamowienie.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, address, products: cart, total, deliveryMethod, paymentMethod })
+      }))
+      .then(() => {
+        alert('Zamówienie zakończone i zapisane!');
+        localStorage.removeItem('cart');
+        window.location.href = 'podziekowania.html';
+      })
+      .catch(err => {
+        alert('Błąd: ' + err);
+        button.disabled = false;
+        button.innerHTML = '<i class="bi bi-check2-circle me-2"></i>Symuluj płatność i zamów';
+      });
+    }, 2000);
+  }
+  document.querySelectorAll('input[name="delivery-method"]').forEach(el => {
+  el.addEventListener('change', () => {
+    updateSummary(); // Dodaj tę funkcję poniżej
+    updateProgress();
+  });
+});
+function updateSummary() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const summaryEl = document.getElementById('checkout-summary');
+  const deliveryInfo = document.getElementById('delivery-info');
+
+  summaryEl.innerHTML = '';
+  let total = 0;
+
+  if (cart.length === 0) {
+    summaryEl.innerHTML = '<li class="list-group-item text-center text-muted">Koszyk jest pusty.</li>';
+    return;
+  }
+
+  summaryEl.innerHTML = cart.map(item => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+    return `<li class="list-group-item d-flex justify-content-between lh-sm">
+      <div><h6 class="my-0">${item.name}</h6>
+      <small class="text-muted">Rozmiar: ${item.size}, Ilość: ${item.quantity}</small></div>
+      <span class="text-muted">${itemTotal.toFixed(2)} zł</span>
+    </li>`;
+  }).join('');
+
+  let deliveryCost = 0;
+  let deliveryText = 'Brak wybranej metody dostawy';
+  const selectedDelivery = document.querySelector('input[name="delivery-method"]:checked');
+
+  if (selectedDelivery) {
+    if (selectedDelivery.value === 'Paczkomaty InPost') {
+      deliveryCost = 10.99;
+      deliveryText = 'Paczkomaty InPost (10,99 zł)';
+    } else if (selectedDelivery.value === 'Kurier InPost') {
+      deliveryCost = 15.99;
+      deliveryText = 'Kurier InPost (15,99 zł)';
+    }
+  }
+
+  summaryEl.innerHTML += `
+    <li class="list-group-item d-flex justify-content-between">
+      <span>Dostawa:</span>
+      <strong>${deliveryText}</strong>
+    </li>
+    <li class="list-group-item d-flex justify-content-between bg-light">
+      <strong>Razem</strong>
+      <strong>${(total + deliveryCost).toFixed(2)} zł</strong>
+    </li>`;
+
+  deliveryInfo.innerHTML = (total >= 450)
+    ? '<p class="text-success small mt-2">Dostawa darmowa!</p>'
+    : '<p class="text-muted small mt-2">Dostawa darmowa przy zamówieniach powyżej 450 zł.</p>';
+}
+
+
+</script>
+
+</body>
+</html>

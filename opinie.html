@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Opinie – Mediva Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="css/style5.css">
+ 
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-white">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Mediva Store</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Start</a></li>
+        <li class="nav-item"><a class="nav-link" href="scrubsy.html">Scrubsy</a></li>
+        <li class="nav-item"><a class="nav-link" href="dlaczego.html">Dlaczego my?</a></li>
+        <li class="nav-item"><a class="nav-link active" href="opinie.html">Opinie</a></li>
+        <li class="nav-item position-relative group-koszyk">
+          <a class="nav-link position-relative" href="cart.html">
+            Koszyk
+            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <div id="cart-preview" class="cart-preview shadow-sm">
+            <p class="mb-1"><strong>Twój koszyk</strong></p>
+            <p class="mb-0">Brak produktów</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <header class="hero d-flex align-items-center justify-content-center">
+    <div class="hero-content">
+      <h1 class="display-4">Opinie klientów</h1>
+    </div>
+  </header>
+
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Co mówią nasi klienci?</h2>
+      </div>
+
+      <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <!-- Pierwsza opinia -->
+          <div class="carousel-item active">
+            <blockquote>"Rewelacyjna jakość i bardzo wygodne. Polecam każdemu lekarzowi!"</blockquote>
+            <div class="testimonial-footer">— dr Anna Kamińska</div>
+          </div>
+
+          <!-- Druga opinia -->
+          <div class="carousel-item">
+            <blockquote>"Świetny krój, noszę codziennie. Komfort przez cały dyżur."</blockquote>
+            <div class="testimonial-footer">— Piotr, ratownik</div>
+          </div>
+
+          <!-- Trzecia opinia -->
+          <div class="carousel-item">
+            <blockquote>"Czuję się w nich komfortowo nawet po 12-godzinnym dyżurze."</blockquote>
+            <div class="testimonial-footer">— Katarzyna, pielęgniarka</div>
+          </div>
+
+          <!-- Czwórka opinii -->
+          <div class="carousel-item">
+            <blockquote>"Moje nowe ubrania Scrubsy zmieniły moje podejście do pracy. Bardzo polecam!"</blockquote>
+            <div class="testimonial-footer">— Michał, technik medyczny</div>
+          </div>
+
+          <!-- Piąta opinia -->
+          <div class="carousel-item">
+            <blockquote>"Idealne na długie dyżury. Są wygodne i świetnie się prezentują!"</blockquote>
+            <div class="testimonial-footer">— Olga, pielęgniarka</div>
+          </div>
+
+          <!-- Szósta opinia -->
+          <div class="carousel-item">
+            <blockquote>"Zdecydowanie najlepsze ubrania medyczne, które miałam okazję nosić!"</blockquote>
+            <div class="testimonial-footer">— Michał, lekarz</div>
+          </div>
+        </div>
+
+        <!-- Przyciski nawigacji -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Mediva Store. Wszelkie prawa zastrzeżone.</p>
+      <small>Projekt i realizacja: Mediva Dev Team</small>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"> </script>
+<script>
+   // Aktualizacja licznika koszyka
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const countEl = document.getElementById('cart-count');
+
+    const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+    if (totalItems > 0) {
+      countEl.textContent = totalItems;
+      countEl.style.display = 'inline-block';
+    } else {
+      countEl.style.display = 'none';
+    }
+  });
+ 
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const preview = document.querySelector('#cart-preview');
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (!preview) return;
+
+  if (cart.length > 0) {
+    const itemsHtml = cart.slice(0, 2).map(item => `
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <span>${item.name} (${item.quantity})</span>
+        <span>${(item.price * item.quantity).toFixed(2)} zł</span>
+      </div>
+    `).join('');
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      ${itemsHtml}
+      ${cart.length > 2 ? '<p class="text-muted small">+ więcej produktów</p>' : ''}
+    `;
+  } else {
+    preview.innerHTML = `
+      <p class="mb-1"><strong>Twój koszyk</strong></p>
+      <p class="mb-0">Brak produktów</p>
+    `;
+  }
+});
+</script>
+
+</body>
+</html>
